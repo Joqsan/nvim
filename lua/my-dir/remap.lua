@@ -4,7 +4,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>')
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
--- select lines and move them up and down, preservin indenting
+-- select lines and move them up and down, preserving indenting
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
