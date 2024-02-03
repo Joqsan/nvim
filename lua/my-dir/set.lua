@@ -18,6 +18,10 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
+-- Sync clipboard between OS and Neovim.
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
