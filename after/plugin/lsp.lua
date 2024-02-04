@@ -30,11 +30,21 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
+-- If more than one diagnostic for a line, show the most severe own
+-- in virtual text
+-- vim.diagnostic.config({
+--   severity_sort = true,
+-- })
+
 -- Make sure to set up `mason` and `mason-lspconfig.nvim` before 
 -- setting up servers via `lspconfig`.
 require("mason").setup()
 require('mason-lspconfig').setup({
-  ensure_installed = {"lua_ls", "pyright"},
+  ensure_installed = {
+    "lua_ls",
+    "pyright",
+    "ruff_lsp"
+  },
   handlers = {
     -- The first entry (without a key) will be the default handler -- and will be called
     -- for each installed server that doesn't have a dedicated handler.
@@ -43,6 +53,46 @@ require('mason-lspconfig').setup({
     lua_ls = function()  -- Setting up Lua for neovim (https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/neovim-lua-ls.md#fixed-config)
       local lua_opts = lsp_zero.nvim_lua_ls()
       require('lspconfig').lua_ls.setup(lua_opts)
+    end,
+    ruff_lsp = function()
+      require("lspconfig").ruff_lsp.setup{
+        on_attach = function(client, bufnr)
+          -- Disable hover in favor of Pyright
+          client.server_capabilities.hoverProvider = false
+        end,
+        handlers = {
+          ['textDocument/publishDiagnostics'] = vim.lsp.with(
+            vim.lsp.diagnostic.on_publish_diagnostics, {
+              virtual_text = false,
+            }
+          ),
+        }
+      }
+    end,
+    pyright = function()
+      require("lspconfig").pyright.setup{
+        settings = {  -- https://github.com/microsoft/pyright/blob/main/docs/settings.md
+          pyright = {
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              exclude = {".venv"},
+              typeCheckingMode = "basic",  -- this is slow
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = 'openFilesOnly',
+            }
+          }
+        },
+        handlers = {
+          ['textDocument/publishDiagnostics'] = vim.lsp.with(
+            vim.lsp.diagnostic.on_publish_diagnostics, {
+              severity_sort = true,
+            }
+          ),
+        }
+      }
     end,
   }
 })
