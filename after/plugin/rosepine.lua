@@ -11,6 +11,7 @@ rosepine.setup({
         DiffAdd = { fg = "#11f0c3"},
         DiffDelete = { fg = "#f54287"},
         diffRemoved = { fg = "#f54287"},
+        LspSignatureActiveParameter = {bg = "#6e6a86"},
 
     }
 })
