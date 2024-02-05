@@ -12,22 +12,28 @@ lsp_zero.on_attach(function(client, bufnr)
 
   -- for stuff like hovering on argument
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-  vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  
+  -- Open line diagnostic in floating window
+  vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
 
-  -- for stuff like automatic sorting  of imports
-  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-
   -- see where the variable under the cursor is being used
-  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
 
   -- renaming across files works, if my lsp supports it
-  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
 
   -- like hovering, but for completion
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+  -- for stuff like automatic sorting  of imports
+  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+
+  vim.keymap.set("n", "<leader>td", ":Telescope diagnostics<CR>", opts)
+
+  vim.keymap.set('n', '<space>bf', function() vim.lsp.buf.format { async = true } end, bufopts)
 end)
 
 -- If more than one diagnostic for a line, show the most severe own
