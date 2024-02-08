@@ -58,3 +58,14 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- Make the current file executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- git diff
+vim.keymap.set("n", "<leader>-", "<cmd>diffg LO<CR>", { silent = true })
+vim.keymap.set("n", "<leader>=", "<cmd>diffg RE<CR>", { silent = true })
+vim.keymap.set("n", "<leader>od", function()
+    if vim.opt.diff:get() then
+        vim.cmd("diffoff")
+    else
+        vim.cmd("diffthis")
+    end
+end)

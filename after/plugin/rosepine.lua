@@ -10,7 +10,8 @@ rosepine.setup({
     highlight_groups = {
         DiffAdd = { fg = "#11f0c3"},
         DiffDelete = { fg = "#f54287"},
-        diffRemoved = { fg = "#f54287"},
+        DiffText = { fg = "#fdfe02", bg = "#11405c"},
+        DiffChange = { bg = "#11405c"},
         LspSignatureActiveParameter = {bg = "#6e6a86"},
 
     }
