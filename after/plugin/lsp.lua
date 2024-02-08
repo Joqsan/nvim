@@ -15,11 +15,11 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
   
   -- Open line diagnostic in floating window
-  vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "<leader>fd", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
 
-  -- see where the variable under the cursor is being used
+  -- Open quickfix with places the variable under the cursor is being used
   vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
 
   -- renaming across files works, if my lsp supports it
@@ -31,9 +31,17 @@ lsp_zero.on_attach(function(client, bufnr)
   -- for stuff like automatic sorting  of imports
   vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
 
-  vim.keymap.set("n", "<leader>td", ":Telescope diagnostics<CR>", opts)
 
-  vim.keymap.set('n', '<space>bf', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<space>ff', function() vim.lsp.buf.format { async = true } end, opts)
+
+  vim.keymap.set(
+    "n", "<leader>os", function()
+      if #vim.lsp.get_active_clients() == 0 then
+          vim.cmd("LspStart")
+      else
+          vim.cmd("LspStop")
+      end
+  end)
 end)
 
 -- If more than one diagnostic for a line, show the most severe own
@@ -72,7 +80,15 @@ require('mason-lspconfig').setup({
               virtual_text = false,
             }
           ),
-        }
+        },
+        init_options = {
+          settings = {
+            -- Any extra CLI arguments for `ruff` go here.
+            args = {
+              "--config=" .. vim.fn.getcwd() .. "/pyproject.toml",
+            },
+          },
+        },
       }
     end,
     pyright = function()
