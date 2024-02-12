@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>b", "<CMD>lua require('dap').toggle_breakpoint()<CR>")
+vim.keymap.set("n", "<leader>db", "<CMD>lua require('dap').toggle_breakpoint()<CR>")
 vim.keymap.set("n", "<F1>", "<CMD>lua require('dap').continue()<CR>")
 vim.keymap.set("n", "<F2>", "<CMD>lua require('dap').step_over()<CR>")
 vim.keymap.set("n", "<F3>", "<CMD>lua require('dap').step_into()<CR>")
@@ -12,4 +12,4 @@ vim.keymap.set(
         require("dap").set_breakpoint(vim.fn.input "[DAP] Condition > ") 
     end
 )
-vim.keymap.set("n", "<leader>dr", "<CMD>require('dap').repl.open()<CR>")
+vim.keymap.set("n", "<leader><F7>", "<CMD>require('dap').repl.open()<CR>")
