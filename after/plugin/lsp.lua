@@ -64,10 +64,6 @@ require('mason-lspconfig').setup({
     -- for each installed server that doesn't have a dedicated handler.
     lsp_zero.default_setup, 
     -- A dedicated handler for specific servers. 
-    lua_ls = function()  -- Setting up Lua for neovim (https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/neovim-lua-ls.md#fixed-config)
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
-    end,
     ruff_lsp = function()
       require("lspconfig").ruff_lsp.setup{
         on_attach = function(client, bufnr)
@@ -144,8 +140,8 @@ cmp.setup({
   -- The purpose of a source is to extract data and then pass it to nvim-cmp.
   -- The order of the sources determines their order in the completion results.
   sources = {
-    {name = 'nvim_lua'},
     {name = 'nvim_lsp'},
+    {name = 'nvim_lua'},
     {name = 'path'},
     {name = 'luasnip'},
     {name = 'buffer', keyword_length = 5},
@@ -153,3 +149,6 @@ cmp.setup({
   formatting = lsp_zero.cmp_format(),
   
 })
+
+require("neodev").setup()
+require("lspconfig").lua_ls.setup {}
