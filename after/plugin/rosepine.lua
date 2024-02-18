@@ -13,11 +13,15 @@ rosepine.setup({
         DiffText = { fg = "#fdfe02", bg = "#11405c"},
         DiffChange = { bg = "#11405c"},
         LspSignatureActiveParameter = {bg = "#6e6a86"},
+        -- MatchParen = { fg = "#05f9e2", bg = "#05f9e2" },
 
     }
 })
 
-vim.cmd([[colorscheme rose-pine]])
+vim.cmd("colorscheme rose-pine")
+
+-- why doesn't work the MatchParen setting in highlight_groups?
+vim.api.nvim_set_hl(0, 'MatchParen', { bg = "#05f9e2"  })
 
 -- disable semantic highlighting (it just sets them all to do nothing).
 -- https://www.reddit.com/r/neovim/comments/12gvms4/this_is_why_your_higlights_look_different_in_90/
