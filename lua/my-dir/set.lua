@@ -1,5 +1,9 @@
 vim.opt.guicursor = ""  -- fat cursor in Insert mode
 
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
 -- Ignore compiled files
 vim.opt.wildignore = "__pycache__"
 vim.opt.wildignore:append { "*.o", "*~", "*.pyc", "*pycache*" }
