@@ -6,42 +6,69 @@ local lsp_zero = require('lsp-zero')
 -- with it. I. e. the mappings exist for the current buffer only.
 lsp_zero.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
+
+  local map = function(mode, lhs, rhs, desc)
+    if desc then
+      desc = "[LSP]: " .. desc
+    end
+
+    vim.keymap.set(mode, lhs, rhs, {buffer = bufnr, remap = false, desc = desc})
+  end
   
   -- go to definition
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  map("n", "gd", vim.lsp.buf.definition, "go to definition")
+  --vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
 
   -- for stuff like hovering on argument
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-  vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  map("n", "K", vim.lsp.buf.hover, "hover function signature")
+  -- vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "query search workspace symbols")
+  -- vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
   
   -- Open line diagnostic in floating window
-  vim.keymap.set("n", "<leader>fd", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  map("n", "<leader>fd", vim.diagnostic.open_float, "open diagnostics in floating window")
+  -- vim.keymap.set("n", "<leader>fd", function() vim.diagnostic.open_float() end, opts)
+  map("n", "]d", vim.diagnostic.goto_next, "go to next diagnostic")
+  -- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  
+  map("n", "[d", vim.diagnostic.goto_prev, "go to prev diagnostic")
+  -- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
 
   -- Open quickfix with places the variable under the cursor is being used
+  map("n", "<leader>rr", vim.lsp.buf.references, "references for word under the cursor")
   vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
 
   -- renaming across files works, if my lsp supports it
-  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+  map("n", "<leader>rn", vim.lsp.buf.rename, "rename")
+  -- vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
 
   -- like hovering, but for completion
-  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+  map("i", "<C-h>", vim.lsp.buf.signature_help, "signature help")
+  -- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
   -- for stuff like automatic sorting  of imports
-  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+  map("n", "<leader>ca", vim.lsp.buf.code_action, "code actions")
+  -- vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
 
+  map(
+    'n',
+    '<space>ff',
+    function() vim.lsp.buf.format { async = true } end,
+    "format buffer"
+  )
 
-  vim.keymap.set('n', '<space>ff', function() vim.lsp.buf.format { async = true } end, opts)
-
-  vim.keymap.set(
-    "n", "<leader>os", function()
+  map(
+    "n",
+    "<leader>os",
+    function()
       if #vim.lsp.get_active_clients() == 0 then
           vim.cmd("LspStart")
       else
           vim.cmd("LspStop")
       end
-  end)
+    end,
+    "toggle LSP client"
+  )
 end)
 
 -- If more than one diagnostic for a line, show the most severe own

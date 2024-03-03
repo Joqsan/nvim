@@ -13,19 +13,19 @@ require'nvim-treesitter.configs'.setup {
 
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
+                ["af"] = { query = "@function.outer", desc = "[TSObject]: capture outer function"},
+                ["if"] = { query = "@function.inner", desc = "[TSObject]: capture inner function"},
                 -- ["ac"] = "@class.outer",
                 -- You can optionally set descriptions to the mappings (used in the desc parameter of
                 -- nvim_buf_set_keymap) which plugins like which-key display
                 -- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
                 -- You can also use captures from other query groups like `locals.scm`
                 -- ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-                ["a?"] = "@conditional.outer",
-                ["i?"] = "@conditional.inner",
-                ["al"] = "@loop.outer",
-                ["il"] = "@loop.inner",
-                ["ar"] = "@assignment.rhs", 
+                ["a?"] = { query = "@conditional.outer", desc = "[TSObject]: capture outer if"},
+                ["i?"] = { query = "@conditional.inner", desc = "[TSObject]: capture inner if"},
+                ["al"] = { query = "@loop.outer", desc = "[TSObject]: capture outer for loop"},
+                ["il"] = { query = "@loop.inner", desc = "[TSObject]: capture inner for loop"},
+                ["ar"] = { query = "@assignment.rhs", desc = "[TSObject]: capture assigment's RHS"}, 
             },
             -- You can choose the select mode (default is charwise 'v')
             --
@@ -54,48 +54,47 @@ require'nvim-treesitter.configs'.setup {
         swap = {
             enable = true,
             swap_next = {
-                ["<leader>a"] = "@parameter.inner",
+                ["<leader>a"] = { query = "@parameter.inner", desc = "[TSObject]: swap current param and the next"},
             },
             swap_previous = {
-                ["<leader>A"] = "@parameter.inner",
+                ["<leader>A"] = { query = "@parameter.inner", desc = "[TSObject]: swap current param and the prev"},
             },
         },
         move = {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-                ["]f"] = "@function.outer",
-                ["]c"] = { query = "@class.outer", desc = "Next class start" },
+                ["]f"] = { query = "@function.outer", desc = "[TSObject]: move to start of next function" },
+                ["]c"] = { query = "@class.outer", desc = "[TSObject]: move to start of next class" },
                 --
                 -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-                ["]l"] = "@loop.*",
+                ["]l"] = { query = "@loop.*", desc = "[TSObject]: move to start (outer and inner) of next for loop" },
                 -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
                 --
                 -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
                 -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-                ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-                ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-            },
-            goto_next_end = {
-                ["]F"] = "@function.outer",
-                ["]C"] = "@class.outer",
+                ["]s"] = { query = "@scope", query_group = "locals", desc = "[TSObject]: move to start of next scope" },
             },
             goto_previous_start = {
-                ["[f"] = "@function.outer",
-                ["[c"] = "@class.outer",
+                ["[f"] = { query = "@function.outer", desc = "[TSObject]: move to start of prev function"},
+                ["[c"] = { query = "@class.outer", desc = "[TSObject]: move to start of prev class" }
+            },
+            goto_next_end = {
+                ["]F"] = { query = "@function.outer", desc = "[TSObject]: move to end of next function"},
+                ["]C"] = { query = "@class.outer", desc = "[TSObject]: move to end of next class" },
             },
             goto_previous_end = {
-                ["[F"] = "@function.outer",
-                ["[C"] = "@class.outer",
+                ["[F"] = { query = "@function.outer", desc = "[TSObject]: move to end of prev function"},
+                ["[C"] = { query = "@class.outer", desc = "[TSObject]: move to end of prev class" },
             },
             -- Below will go to either the start or the end, whichever is closer.
             -- Use if you want more granular movements
             -- Make it even more gradual by adding multiple queries and regex.
             goto_next = {
-                ["]?"] = "@conditional.outer",
+                ["]?"] = { query = "@conditional.outer", desc = "[TSObject]: move to start/end (whichever is closer) of next if statement" },
             },
             goto_previous = {
-                ["[?"] = "@conditional.outer",
+                ["[?"] = { query = "@conditional.outer", desc = "[TSObject]: move to start/end (whichever is closer) of prev if statement" }, 
             }
         },
     },
