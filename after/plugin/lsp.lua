@@ -107,9 +107,9 @@ require('mason-lspconfig').setup({
         init_options = {
           settings = {
             -- Any extra CLI arguments for `ruff` go here.
-            args = {
-              "--config=" .. vim.fn.getcwd() .. "/pyproject.toml",
-            },
+            -- args = {
+            --  "--config=" .. vim.fn.getcwd() .. "/pyproject.toml",
+            -- },
           },
         },
       }
