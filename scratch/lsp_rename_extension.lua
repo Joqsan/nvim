@@ -3,6 +3,15 @@ local f = function()
     print(uio)
 end
 
+local x = 5
+print(x)
+
+local my_super_function = function(arg1, arg2, arg3)
+    return arg1 + arg2 + arg3
+end
+
+local res = my_super_function()
+
 function GlobalFunction()
     -- Create request object
     local position_params = vim.lsp.util.make_position_params()
