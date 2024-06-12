@@ -123,7 +123,7 @@ require('mason-lspconfig').setup({
           python = {
             analysis = {
               exclude = {".venv"},
-              typeCheckingMode = "basic",  -- this is slow
+              typeCheckingMode = "off",  -- this is slow
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = 'openFilesOnly',
@@ -167,7 +167,7 @@ cmp.setup({
   -- The purpose of a source is to extract data and then pass it to nvim-cmp.
   -- The order of the sources determines their order in the completion results.
   sources = {
-    {name = "month"},
+    -- {name = "month"},
     {name = 'nvim_lsp'},
     {name = 'nvim_lua'},
     {name = 'path'},
